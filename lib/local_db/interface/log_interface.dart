@@ -7,7 +7,7 @@ abstract class LogInterface{
 
   Future<List<Log>?> getLogs();
 
-  deleteLogs(int attendDateTime);
+  deleteLogs(String? attendDateTime);
 
   close();
 

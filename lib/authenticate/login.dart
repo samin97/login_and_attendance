@@ -51,6 +51,7 @@ class _LoginState extends State<Login> {
     if (response.statusCode == 200) {
       var s = response.body.toString();
       await sharedPreferences?.setString("token", s);
+      print(s);
       Route newRoute = MaterialPageRoute(builder: (_) => const HomeScreen());
       Navigator.pushReplacement(context, newRoute);
     } else {

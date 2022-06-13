@@ -11,7 +11,7 @@ class LogRepository{
   }
   static addLogs(Log log) => dbObject.addLogs(log);
 
-  static deleteLogs(int attendDateTime) => dbObject.deleteLogs(attendDateTime);
+  static deleteLogs(String? attendDateTime) => dbObject.deleteLogs(attendDateTime);
 
   static getLogs() => dbObject.getLogs();
 

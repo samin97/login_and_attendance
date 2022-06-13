@@ -26,30 +26,48 @@ class SyncAttendance extends StatelessWidget {
               return ListView.builder(
                 itemCount: logList.length,
                 itemBuilder: (context, index) {
-                  Log _log= logList[index];
+                  Log _log = logList[index];
+                  if (_log.attendDateTime ==) {
+                    LogRepository.deleteLogs(_log.attendDateTime);
+                  }
+                  else {
+                    syncNow();
+                  }
 
                   return const Text("No attendance log");
                 },
               );
             }
-            return const Text("No attendance log");
           }
           return const Text("No attendance log");
         });
   }
+
+  Future syncNow() async {
+    fetchAttendance();
+  }
+
 }
 
-// Future<AttendanceModel> fetchAttendance() async {
-//   final response = await http
-//       .get(Uri.parse('http://api.ssgroupm.com/Api/Attendence/GetAttendence'));
-//
-//   if (response.statusCode == 200) {
-//     // If the server did return a 200 OK response,
-//     // then parse the JSON.
-//     return AttendanceModel.fromJson(jsonDecode(response.body));
-//   } else {
-//     // If the server did not return a 200 OK response,
-//     // then throw an exception.
-//     throw Exception('Failed to load attendance log');
-//   }
-// }
+Future<AttendanceModel> fetchAttendance() async {
+  AttendanceModel fetchedAttendance = AttendanceModel(nepaliDate: 'nepaliDate',
+      englishDate: 'englishDate',
+      attendDateTime: 'attendDateTime',
+      latitude: 'latitude',
+      longitude: 'longitude',
+      deviceId: 'deviceId',
+      networkId: 'networkId',
+      altitude: 'altitude');
+  final response = await http
+      .get(Uri.parse('http://api.ssgroupm.com/Api/Attendence/GetAttendence'));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return fetchedAttendance.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load attendance log');
+  }
+}

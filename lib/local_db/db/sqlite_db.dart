@@ -55,7 +55,7 @@ class SqliteMethods implements LogInterface {
   }
 
   @override
-  deleteLogs(int attendDateTime) async {
+  deleteLogs(String? attendDateTime) async {
     var dbClient = await db;
     return await dbClient!
         .delete(tableName, where: '$id=?', whereArgs: [attendDateTime]);
