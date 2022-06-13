@@ -7,8 +7,23 @@ import '../../models/attendance_model.dart';
 import '';
 import '../../models/local_storage_model.dart';
 
-class SyncAttendance extends StatelessWidget {
+class SyncAttendance extends StatefulWidget {
   const SyncAttendance({Key? key}) : super(key: key);
+
+  @override
+  State<SyncAttendance> createState() => _SyncAttendanceState();
+}
+
+class _SyncAttendanceState extends State<SyncAttendance> {
+  AttendanceModel fetchedAttendance = AttendanceModel(
+      nepaliDate: 'nepaliDate',
+      englishDate: 'englishDate',
+      attendDateTime: 'attendDateTime',
+      latitude: 'latitude',
+      longitude: 'longitude',
+      deviceId: 'deviceId',
+      networkId: 'networkId',
+      altitude: 'altitude');
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +42,10 @@ class SyncAttendance extends StatelessWidget {
                 itemCount: logList.length,
                 itemBuilder: (context, index) {
                   Log _log = logList[index];
-                  if (_log.attendDateTime ==) {
+                  fetchAttendance();
+                  if (_log.attendDateTime == fetchedAttendance.attendDateTime) {
                     LogRepository.deleteLogs(_log.attendDateTime);
-                  }
-                  else {
+                  } else {
                     syncNow();
                   }
 
@@ -47,18 +62,15 @@ class SyncAttendance extends StatelessWidget {
     fetchAttendance();
   }
 
-}
-
-Future<AttendanceModel> fetchAttendance() async {
-  final response = await http
-      .get(Uri.parse('http://api.ssgroupm.com/Api/Attendence/GetAttendence'));
-
-  if (response.statusCode == 200) {
-
-    AttendanceModel fetchedAttendance = AttendanceModel.fromJson(jsonDecode(response.body));
-    return fetchedAttendance;
-  } else {
-
-    throw Exception('Failed to load attendance log');
+  Future<AttendanceModel> fetchAttendance() async {
+    final response = await http
+        .get(Uri.parse('http://api.ssgroupm.com/Api/Attendence/GetAttendence'));
+    if (response.statusCode == 200) {
+      fetchedAttendance =
+          AttendanceModel.fromJson(jsonDecode(response.body));
+      return fetchedAttendance;
+    } else {
+      throw Exception('Failed to load attendance log');
+    }
   }
 }
