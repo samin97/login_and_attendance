@@ -6,7 +6,7 @@ class Log{
   String? longitude;
   String? deviceId;
   String? networkId;
-  String? attitude;
+  String? altitude;
   Log({
     required this.attendDateTime,
     required this.nepaliDate,
@@ -15,7 +15,7 @@ class Log{
     required this.longitude,
     required this.deviceId,
     required this.networkId,
-    required this.attitude,
+    required this.altitude,
 });
 
   Map<String, dynamic> toMap(Log log){
@@ -27,7 +27,7 @@ class Log{
     logMap["longitude"]= log.longitude;
     logMap["deviceId"]= log.deviceId;
     logMap["networkId"]= log.networkId;
-    logMap["attitude"]= log.attitude;
+    logMap["attitude"]= log.altitude;
     return logMap;
   }
   Log.fromMap(Map logMap){
@@ -38,6 +38,6 @@ class Log{
     this.longitude = logMap["longitude"];
     this.deviceId = logMap["deviceId"];
     this.networkId = logMap["networkId"];
-    this.attitude = logMap["attitude"];
+    this.altitude = logMap["attitude"];
   }
 }

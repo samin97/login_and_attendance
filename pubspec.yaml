@@ -54,6 +54,9 @@ dependencies:
   #internet connection:
   connectivity_plus: ^2.3.3
 
+  #fingerprint:
+  local_auth: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

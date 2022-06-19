@@ -1,8 +1,12 @@
-import 'package:first_app/main_screen/home_screen.dart';
-import 'package:first_app/splash_screen/splash_screen.dart';
+import 'package:first_app/authenticate/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+import 'global/global.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPreferences = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
@@ -17,9 +21,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: const Login(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:first_app/models/login_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../global/error_dialog.dart';
@@ -49,9 +50,15 @@ class _LoginState extends State<Login> {
         body: jsonEncode(user));
 
     if (response.statusCode == 200) {
-      var s = response.body.toString();
-      await sharedPreferences?.setString("token", s);
-      print(s);
+      // var s = response.body.toString();
+      LoginResponseModel userDetails = LoginResponseModel.fromJson(jsonDecode(response.body));
+      await sharedPreferences?.setString("token", userDetails.tokenString);
+      await sharedPreferences?.setString("username", userDetails.username);
+      await sharedPreferences?.setString("firstName", userDetails.firstName);
+      await sharedPreferences?.setString("role", userDetails.role);
+      //await sharedPreferences?.setString("permission", userDetails.permission ?? "unspecified");
+
+
       Route newRoute = MaterialPageRoute(builder: (_) => const HomeScreen());
       Navigator.pushReplacement(context, newRoute);
     } else {

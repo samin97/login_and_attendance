@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:first_app/global/global.dart';
 import 'package:first_app/local_db/repository/log_repository.dart';
 import 'package:first_app/main_screen/home_screen.dart';
 import 'package:first_app/models/attendance_model.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:nepali_utils/nepali_utils.dart';
@@ -24,7 +24,6 @@ class Attendance extends StatefulWidget {
 
 class _AttendanceState extends State<Attendance> {
   Position? position;
-  List<Placemark>? placeMarks;
   late AttendanceModel attendanceModel = AttendanceModel(
       nepaliDate: "nepaliDate",
       englishDate: "englishDate",
@@ -34,8 +33,6 @@ class _AttendanceState extends State<Attendance> {
       deviceId: "deviceId",
       networkId: "networkId",
       altitude: "attitude");
-
-  get builder => null;
 
   @override
   void initState() {
@@ -67,8 +64,6 @@ class _AttendanceState extends State<Attendance> {
     //networkId:
     final info = NetworkInfo();
     var wifiGateway = await info.getWifiGatewayIP();
-
-    //todo set state
 
     setState(() {
       attendanceModel.nepaliDate = nepaliFormatted.trim();
@@ -104,21 +99,23 @@ class _AttendanceState extends State<Attendance> {
         deviceId: attendanceModel.deviceId,
         englishDate: attendanceModel.englishDate,
         networkId: attendanceModel.networkId,
-        attitude: attendanceModel.altitude);
+        altitude: attendanceModel.altitude);
     LogRepository.addLogs(log);
   }
 
   Future postAttendance() async {
+    final token = sharedPreferences!.getString("token")!;
     var response = await http.post(
         Uri.parse("http://api.ssgroupm.com/Api/Attendence/AttendUser"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(attendanceModel));
     print(response.statusCode);
 
     if (response.statusCode == 200) {
-     // var s = response.body.toString();
+      // var s = response.body.toString();
       Route newRoute = MaterialPageRoute(builder: (_) => const HomeScreen());
       Navigator.pushReplacement(context, newRoute);
     } else {
@@ -130,13 +127,6 @@ class _AttendanceState extends State<Attendance> {
             );
           });
     }
-  }
-
-  getCurrentLocation() async {
-    placeMarks = await placemarkFromCoordinates(
-      position!.latitude,
-      position!.longitude,
-    );
   }
 
   @override
