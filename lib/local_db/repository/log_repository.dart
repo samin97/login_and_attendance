@@ -1,5 +1,4 @@
 import 'package:first_app/local_db/db/sqlite_db.dart';
-import 'package:flutter/material.dart';
 import '../../models/local_storage_model.dart';
 
 class LogRepository{
@@ -7,9 +6,9 @@ class LogRepository{
 
   static init(){
     dbObject = SqliteMethods();
-    dbObject.init();
+    SqliteMethods().init();
   }
-  static addLogs(Log log) => dbObject.addLogs(log);
+  static addLogs(Log log) => SqliteMethods().addLogs(log);
 
   static deleteLogs(String? attendDateTime) => dbObject.deleteLogs(attendDateTime);
 

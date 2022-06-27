@@ -51,11 +51,19 @@ dependencies:
   path_provider: ^2.0.11
   path: ^1.8.1
 
+  #leave:
+  nepali_date_picker: ^5.3.0
+  image_picker: ^0.8.4
+  modal_progress_hud_nsn: ^0.2.0
+
   #internet connection:
   connectivity_plus: ^2.3.3
 
   #fingerprint:
   local_auth: ^2.1.0
+
+  #report:
+  month_year_picker: ^0.2.0+1
 
 dev_dependencies:
   flutter_test:

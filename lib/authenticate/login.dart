@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:first_app/models/login_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../global/error_dialog.dart';
+import '../global/widgets/error_dialog.dart';
 import '../global/global.dart';
 import '../main_screen/home_screen.dart';
 import '../models/login_model.dart';

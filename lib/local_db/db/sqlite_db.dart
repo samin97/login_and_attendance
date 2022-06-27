@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:first_app/local_db/interface/log_interface.dart';
 import 'package:first_app/models/local_storage_model.dart';
 import 'package:path/path.dart';
@@ -12,7 +11,8 @@ class SqliteMethods implements LogInterface {
   String tableName = "Attendance_logs";
 
   //columns
-  String id = "attendDateTime";
+  late String id;
+  String attendDateTime = "attendDateTime";
   String nepaliDate = "nepaliDate";
   String englishDate = "englishDate";
   String latitude = "latitude";
@@ -41,7 +41,7 @@ class SqliteMethods implements LogInterface {
 
   _onCreate(Database db, int version) async {
     String createTableQuery =
-        "CREATE TABLE $tableName ($id INTEGER PRIMARY KEY, $nepaliDate TEXT, $englishDate TEXT, $latitude TEXT, $longitude TEXT, $deviceId TEXT, $networkId TEXT, $altitude TEXT)";
+        "CREATE TABLE $tableName ($id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, $attendDateTime TEXT, $nepaliDate TEXT, $englishDate TEXT, $latitude TEXT, $longitude TEXT, $deviceId TEXT, $networkId TEXT, $altitude TEXT)";
 
     await db.execute(createTableQuery);
     print("table created");
@@ -74,15 +74,14 @@ class SqliteMethods implements LogInterface {
       //List<Map> maps = await dbClient.rawQuery("SELECT * FROM $tableName");
       List<Map> maps = await dbClient!.query(tableName, columns: [
         id,
-        altitude,
-        networkId,
+        nepaliDate,
         englishDate,
-        deviceId,
         latitude,
         longitude,
-        nepaliDate
+        deviceId,
+        networkId,
+        altitude,
       ]);
-
 
       List<Log> logList = [];
       if (maps.isNotEmpty) {
